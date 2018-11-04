@@ -9,10 +9,10 @@ It is also possible for other programming languages such as C++, TypeScript, Rus
 
 ## How to make it works
 *   Create `C` files in `/wasm` directory.\
-    ***Note:*** that the file name and function name is the same
+    ***Note:*** that the file name and function name must be the same
 *   Run my custom script `npm run compilec`.\
     ***Note:*** you need to install compiler from [webassembly offical website](https://webassembly.org)
-*   The script create `.wasm` file and `.js` file in the same directory
+*   The script will create `.wasm` file and `.js` file in the same directory
 *    Fetch the wasm file in html script
 *    Set function to `window` instance
 *    Call the function
