@@ -7,8 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "src": "source ~/.bash_profile",
     "compile": "source ~/.bash_profile\nfor i in ./wasm/*.c\ndo\n emcc \"$i\" -s WASM=1 -s SIDE_MODULE=1 -o \"${i%.*}.wasm\"\n done",
-    "compile2": "source ~/.bash_profile\nfor i in ./wasm/*.c\ndo\nf_name_path=\"${i%.*}\"\nf_name=\"${f_name_path##*/}\"\n emcc \"$i\" -s ONLY_MY_CODE=1 -s WASM=1 -s EXPORTED_FUNCTIONS=\"['_$f_name']\" -o \"$f_name_path.js\"\n done",
-    "this": "npm run compile2"
+    "compilec": "source ~/.bash_profile\nfor i in ./wasm/*.c\ndo\nf_name_path=\"${i%.*}\"\nf_name=\"${f_name_path##*/}\"\n emcc \"$i\" -s ONLY_MY_CODE=1 -s WASM=1 -s EXPORTED_FUNCTIONS=\"['_$f_name']\" -o \"$f_name_path.js\"\n done",
+    "compilecpp": "source ~/.bash_profile\nfor i in ./wasm/*.cpp\ndo\nf_name_path=\"${i%.*}\"\nf_name=\"${f_name_path##*/}\"\n emcc \"$i\" -s ONLY_MY_CODE=1 -s WASM=1 -s EXPORTED_FUNCTIONS=\"['_$f_name']\" -o \"$f_name_path.js\"\n done",
+    "compilets": "source ~/.bash_profile\nfor i in ./wasm/*.ts\ndo\nf_name_path=\"${i%.*}\"\nf_name=\"${f_name_path##*/}\"\n emcc \"$i\" -s ONLY_MY_CODE=1 -s WASM=1 -s EXPORTED_FUNCTIONS=\"['_$f_name']\" -o \"$f_name_path.js\"\n done",
+    "this": "npm run compilec"
   },
   "author": "",
   "license": "ISC",
