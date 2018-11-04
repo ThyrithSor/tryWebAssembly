@@ -1,0 +1,74 @@
+<html>
+<head>
+    <title>WASM</title>
+</head>
+<body>
+    <ul>
+        <li>
+            Create <code>C</code> files in <code>/wasm</code> directory.
+            <em>Note:</em> that the file name and function name is the same
+        </li>
+        <li>
+            Run my custom script <code>npm run compile2</code>.
+            <em>Note:</em> you need to install
+        </li>
+        <li>
+            The script create <code>.wasm</code> file and <code>.js</code>file in the same directory
+        </li>
+        <li>
+            Fetch the wasm file in html script
+        </li>
+        <li>
+            Set function to <code>window</code> instance
+        </li>
+        <li>
+            Call the function
+        </li>
+        <li>
+            Run <code>http-server</code> to host it.
+            <em>Note:</em> you might need to run <code>npm install -g http-server</code>
+        </li>
+    </ul>
+    <script>
+        function * testSpeed() {
+            console.log('Fibonacci in C')
+            console.time("timer")
+            cLoop(50000000)
+            console.timeEnd("timer")
+
+            console.log('Fibonacci in JS')
+            console.time("timer")
+            jsLoop(50000000)
+            console.timeEnd("timer")
+        }
+
+        let tester = testSpeed()
+
+        const memory = new WebAssembly.Memory({initial: 256, maximum: 256});
+            const importObj = {
+                env: {
+                    abortStackOverflow: () => {throw new Error('overflow');},
+                    table: new WebAssembly.Table({initial: 0, maximum: 0, element: 'anyfunc'}),
+                    tableBase: 0,
+                    memory: memory,
+                    memoryBase: 1024,
+                    STACKTOP: 0,
+                    STACK_MAX: memory.buffer.byteLength,
+                }
+            };
+            fetch('wasm/cLoop.wasm').then((response) => response.arrayBuffer())
+                    .then((bytes) => WebAssembly.instantiate(bytes, importObj))
+                    .then((wa) => {
+                        window.cLoop = wa.instance.exports._cLoop
+                        tester.next()
+                    });
+
+        function jsLoop (num) {
+            let i
+            for (i = 0; i < num; i++) {
+            }
+            return i
+        }
+    </script>
+</body>
+</html>
